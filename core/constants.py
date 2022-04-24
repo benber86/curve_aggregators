@@ -9,4 +9,3 @@ UST = Token("UST", "0xa693B19d2931d498c5B318dF961919BB4aee87a5", 6)
 TOKENS = [DAI, USDT, USDC, FRAX, MIM, UST]
 
 PARASWAP_API = "https://api.paraswap.io/prices/"
-

@@ -7,7 +7,9 @@ from sqlalchemy import create_engine
 import os
 
 
-db_path = 'sqlite:////' + os.path.join(os.path.dirname(os.path.realpath(__file__)), 'trades.db')
+db_path = "sqlite:////" + os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), "trades.db"
+)
 engine = create_engine(db_path)
 
 # typing issue : https://github.com/python/mypy/issues/2477
@@ -37,32 +39,32 @@ class PreRecord:
 
 class Trade(Base):
     __tablename__ = "trades"
-    id = Column(Integer, Sequence('id_seq'), primary_key=True, autoincrement=True)
+    id = Column(Integer, Sequence("id_seq"), primary_key=True, autoincrement=True)
     pair = Column(String)
     amount = Column(Integer)
     timestamp = Column(DateTime, server_default=func.now())
-    records = relationship(
-        "Record"
-    )
+    records = relationship("Record")
 
 
 class Record(Base):
     __tablename__ = "records"
-    id = Column(Integer, Sequence('id_seq'), primary_key=True, autoincrement=True)
+    id = Column(Integer, Sequence("id_seq"), primary_key=True, autoincrement=True)
     exchange = Column(String)
     amount_out = Column(Float)
     rank = Column(Integer)
     original_rank = Column(Integer)
     loss_pct = Column(Float)
-    trade = Column(Integer, ForeignKey('trades.id'))
+    trade = Column(Integer, ForeignKey("trades.id"))
 
-    def __init__(self,
-                 exchange: str,
-                 amount_out: int,
-                 rank: int,
-                 original_rank: int,
-                 loss_pct: float,
-                 trade: Trade):
+    def __init__(
+        self,
+        exchange: str,
+        amount_out: int,
+        rank: int,
+        original_rank: int,
+        loss_pct: float,
+        trade: Trade,
+    ):
 
         self.exchange = exchange
         self.amount_out = amount_out
