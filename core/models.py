@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, ForeignKey, DateTime, Integer, Float
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy import Column, String, ForeignKey, DateTime, Integer, Float, Sequence
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from sqlalchemy import create_engine
 import os
@@ -37,7 +37,7 @@ class PreRecord:
 
 class Trade(Base):
     __tablename__ = "trades"
-    id = Column(String, primary_key=True)
+    id = Column(Integer, Sequence('id_seq'), primary_key=True, autoincrement=True)
     pair = Column(String)
     amount = Column(Integer)
     timestamp = Column(DateTime, server_default=func.now())
@@ -45,18 +45,12 @@ class Trade(Base):
         "Record"
     )
 
-    def __init__(self,
-                 pair: str,
-                 amount: int):
-        self.pair = pair
-        self.amount = amount
-
 
 class Record(Base):
     __tablename__ = "records"
-    id = Column(String, primary_key=True)
+    id = Column(Integer, Sequence('id_seq'), primary_key=True, autoincrement=True)
     exchange = Column(String)
-    amount_out = Column(Integer)
+    amount_out = Column(Float)
     rank = Column(Integer)
     original_rank = Column(Integer)
     loss_pct = Column(Float)
@@ -78,5 +72,4 @@ class Record(Base):
         self.trade = trade
 
 
-Session = sessionmaker(bind=engine)
-session = Session()
+Base.metadata.create_all(engine)
