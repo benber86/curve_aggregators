@@ -14,6 +14,7 @@ if __name__ == "__main__":
 
     Session = sessionmaker(bind=engine)
     session = Session()
+    batch = 0
 
     while True:
         for pair in pairs:
@@ -75,5 +76,6 @@ if __name__ == "__main__":
                 except Exception as e:
                     print(f"ERROR ({pair}): {e}")
 
-        print("First batch done, waiting 5 minutes")
+        batch += 1
+        print(f"Batch {batch} done, waiting 5 minutes")
         time.sleep(300)
