@@ -7,7 +7,7 @@ from core.models import Trade, Record, PreRecord, engine
 from core.parsing import parse_all_results
 from core.queries import get_rates
 
-pairs = permutations(TOKENS, 2)
+pairs = list(permutations(TOKENS, 2))
 amounts = [1000, 10000, 100000]
 
 if __name__ == "__main__":
